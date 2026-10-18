@@ -110,7 +110,7 @@ Dungeon::Command Dungeon::NextAction() {
       }
       waiting_for_answer_ = true;
       last_looked_hall_ = hall_index;
-      return {Action::LOOK, hall_index, 0};
+      return {Action::LOOK, hall_index, halls_[hall_index].Tunnels().size()};
     }
   }
 
@@ -124,7 +124,7 @@ Dungeon::Command Dungeon::NextAction() {
          tunnel_index < halls_[hall_index].Tunnels().size(); ++tunnel_index) {
       const auto& tunnel = halls_[hall_index].Tunnels()[tunnel_index];
 
-      if (!tunnel.IsBroken() ||
+      if (!tunnel.IsOpened() ||
           explored_zone_.contains(tunnel.DestinationHallIndex())) {
         continue;
       }
